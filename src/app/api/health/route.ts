@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/db";
 import { users } from "@/db/schema";
+import { databaseUrl } from "@/db/url";
 
 export const dynamic = "force-dynamic";
 
 /** Deployment health: which DB driver is active, whether it is migrated/seeded, config present. No secrets. */
 export async function GET() {
   const checks: Record<string, unknown> = {
-    driver: process.env.DATABASE_URL ? "neon" : process.env.VERCEL ? "unconfigured" : "pglite",
+    driver: databaseUrl() ? "neon" : process.env.VERCEL ? "unconfigured" : "pglite",
     sessionSecret: Boolean(process.env.SESSION_SECRET),
     database: "unknown",
     seeded: false,

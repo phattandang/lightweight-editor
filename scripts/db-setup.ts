@@ -13,9 +13,10 @@ import { migrate } from "drizzle-orm/neon-http/migrator";
 import * as schema from "../src/db/schema";
 import { seed } from "../src/db/seed";
 import type { DB } from "../src/db";
+import { databaseUrl } from "../src/db/url";
 
 async function main() {
-  const url = process.env.DATABASE_URL;
+  const url = databaseUrl();
   if (!url) {
     console.log("[db-setup] DATABASE_URL not set - skipping (PGlite is used locally).");
     return;

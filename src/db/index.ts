@@ -1,6 +1,7 @@
 import { drizzle as drizzleNeon, type NeonHttpDatabase } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import * as schema from "./schema";
+import { databaseUrl } from "./url";
 
 /**
  * One query API, two drivers:
@@ -13,7 +14,7 @@ export type DB = NeonHttpDatabase<typeof schema>;
 const globalForDb = globalThis as unknown as { __db?: Promise<DB> };
 
 async function createDb(): Promise<DB> {
-  const url = process.env.DATABASE_URL;
+  const url = databaseUrl();
   if (url) {
     return drizzleNeon(neon(url), { schema });
   }
