@@ -52,13 +52,22 @@ pnpm dev
 | `SESSION_SECRET` | In production     | Signs the session cookie (HS256). Use any long random string. A dev fallback is used locally. |
 | `PGLITE_DIR`     | No                | Where PGlite stores data locally (default `./.data/pglite`).                  |
 
+### Running a production build locally (optional)
+
+`pnpm dev` is the easiest way to try the app. A production build (`pnpm build && pnpm start`) refuses to sign sessions without a secret, so create `.env.local` first. Any value works locally:
+
+```bash
+echo SESSION_SECRET=any-long-random-string > .env.local
+pnpm build && pnpm start
+```
+
 ### Scripts
 
 | Command            | What it does                                                               |
 |--------------------|----------------------------------------------------------------------------|
 | `pnpm dev`         | Start the dev server                                                       |
 | `pnpm test`        | Run the Vitest suite (no database or network needed)                       |
-| `pnpm typecheck`   | Run the TypeScript type check                                              |
+| `pnpm typecheck`   | Generate Next.js route types, then run the TypeScript type check           |
 | `pnpm lint`        | Run ESLint                                                                 |
 | `pnpm db:setup`    | Migrate and seed the database at `DATABASE_URL` (skipped if unset)          |
 | `pnpm db:generate` | Generate a new SQL migration after editing `src/db/schema.ts`              |
