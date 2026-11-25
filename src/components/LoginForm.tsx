@@ -21,13 +21,44 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
       router.replace("/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Sign in failed.");
+      const hint =
+        err instanceof ApiError && err.code === "invalid_credentials"
+          ? " Demo accounts use @ajaia.test addresses (e.g. alice@ajaia.test / demo1234)."
+          : "";
+      setError((err instanceof ApiError ? err.message : "Sign in failed.") + hint);
       setBusy(false);
     }
   }
 
   return (
     <div className="mt-5">
+      <div>
+        <p className="text-xs font-medium uppercase tracking-wide text-muted">Choose a demo account</p>
+        <div className="mt-2 grid gap-2">
+          {demoUsers.map((u) => (
+            <button
+              key={u.email}
+              type="button"
+              disabled={busy}
+              onClick={() => signIn(u.email, demoPassword)}
+              className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-left text-sm hover:border-accent hover:bg-accent-soft disabled:opacity-60"
+            >
+              <span className="font-medium">Continue as {u.name.split(" ")[0]}</span>
+              <span className="text-muted">{u.email}</span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-muted">
+          Password for all demo accounts: <code className="font-mono">{demoPassword}</code>
+        </p>
+      </div>
+
+      <div className="my-5 flex items-center gap-3 text-xs text-muted">
+        <span className="h-px flex-1 bg-border" />
+        or sign in with email
+        <span className="h-px flex-1 bg-border" />
+      </div>
+
       <form
         className="space-y-3"
         onSubmit={(ev) => {
@@ -40,6 +71,7 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
           <input
             type="email"
             autoComplete="username"
+            placeholder="alice@ajaia.test"
             required
             value={email}
             onChange={(ev) => setEmail(ev.target.value)}
@@ -70,27 +102,6 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
           {busy ? "Signing in…" : "Sign in"}
         </button>
       </form>
-
-      <div className="mt-6 border-t border-border pt-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted">Quick sign in (demo)</p>
-        <div className="mt-2 grid gap-2">
-          {demoUsers.map((u) => (
-            <button
-              key={u.email}
-              type="button"
-              disabled={busy}
-              onClick={() => signIn(u.email, demoPassword)}
-              className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-left text-sm hover:bg-accent-soft disabled:opacity-60"
-            >
-              <span className="font-medium">{u.name}</span>
-              <span className="text-muted">{u.email}</span>
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-muted">
-          Password for all demo accounts: <code className="font-mono">{demoPassword}</code>
-        </p>
-      </div>
     </div>
   );
 }

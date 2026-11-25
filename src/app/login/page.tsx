@@ -14,7 +14,9 @@ export default async function LoginPage() {
         </div>
         <div className="rounded-xl border border-border bg-page p-6 shadow-sm">
           <h1 className="text-xl font-semibold">Sign in</h1>
-          <p className="mt-1 text-sm text-muted">Use one of the demo accounts to try sharing between users.</p>
+          <p className="mt-1 text-sm text-muted">
+            Pick a demo account. Sign in as two different people to try sharing.
+          </p>
           <LoginForm demoUsers={SEED_USERS.map((u) => ({ ...u }))} demoPassword={DEMO_PASSWORD} />
         </div>
       </div>
