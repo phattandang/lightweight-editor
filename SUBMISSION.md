@@ -6,6 +6,7 @@
 |--------------------------|---------------------------------------------------------|
 | Live product             | https://lightweight-editor.vercel.app                                            |
 | Source repository        | https://github.com/phattandang/lightweight-editor       |
+| Submitted snapshot       | Git tag `submission-v1`. The zip in this folder is built from it. |
 | Walkthrough video        | See `WALKTHROUGH_VIDEO.txt`                             |
 
 ## Test accounts (seeded)

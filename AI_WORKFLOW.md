@@ -21,7 +21,11 @@ I ran it as a **human-in-the-loop agent loop**, not as autocomplete:
 ## Where human judgment mattered
 
 - **Scope and priorities:** what to cut (real-time co-editing, attachments, public links) and what to go deep on (no lost edits, server-side permissions).
-- **Catching real-world issues the agent couldn't see.** When I first tried the deployment, I was hitting Vercel's default **Deployment Protection** login wall, not the app's login. That would have blocked reviewers too. We disabled it, and the agent also made the demo accounts the most prominent option on the sign-in page.
+- **Catching real-world issues the agent couldn't see.** Several problems only showed up on the real deployment, because I was the one using it in a browser:
+  - A Vercel **Deployment Protection** login wall sat in front of the app, which would have blocked reviewers too. I disabled it, and the agent made the demo accounts the most prominent option on the sign-in page.
+  - Every page returned Vercel's 404 because the project's framework preset was wrong (the repo held only a README when I first imported it). The agent diagnosed this by probing which paths were served, and pinned the framework in `vercel.json`.
+  - Sign-in returned a 500 on production. The agent added an `/api/health` endpoint, which showed the database URL and session secret were not set on the Production environment. I fixed the Vercel configuration, including removing a duplicate project, and it then reported healthy.
+  - New documents seemed to vanish from the dashboard after pressing Back. The agent confirmed against the production API that they were saved, traced it to the router restoring a stale cached page, and fixed it.
 - **Reviewing the generated code** for the permission matrix, the concurrency logic and the import sanitization, which are the parts a reviewer would probe.
 
 ## Where the AI's output needed correcting
@@ -35,4 +39,5 @@ I ran it as a **human-in-the-loop agent loop**, not as autocomplete:
 - **17 automated tests**, including integration tests against a real Postgres engine (PGlite) and a real `.docx` conversion.
 - `tsc --noEmit` and ESLint on every phase.
 - curl scripts against the running server covering sign-in, creating, saving, renaming, sharing, importing, and the error paths (401, 403, 415, invalid JSON, wrong password). The 409 conflict path is covered by the integration tests.
-- A manual browser walkthrough of the two-user sharing flow on the deployed app.
+- A scripted smoke test against the production deployment: sign-in, saving and the 409 path, rename, sharing as viewer and as editor, blocked writes and re-shares (403), and import. The test documents were deleted afterwards.
+- A manual browser walkthrough on the deployed app: typing, bold, italic, underline, strikethrough, deleting, sharing as viewer and as editor, and file import.

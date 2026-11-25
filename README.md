@@ -79,9 +79,12 @@ pnpm test
 ## Deployment (Vercel + Neon, both free tiers)
 
 1. Import the GitHub repo into Vercel. The Next.js preset is detected automatically.
-2. Set these environment variables for Production and Preview: `DATABASE_URL` (the Neon *pooled* connection string), `SESSION_SECRET`, and `ENABLE_EXPERIMENTAL_COREPACK=1`, so Vercel uses the pinned pnpm.
+2. Set these environment variables for **Production**: `DATABASE_URL` (the Neon *pooled* connection string) and `SESSION_SECRET` (any long random string). `vercel.json` pins the framework to Next.js. Vercel installs with pnpm, detected from `pnpm-lock.yaml`.
 3. Under **Settings → Deployment Protection**, disable Vercel Authentication so reviewers can open the app.
 4. Deploy. The build runs `pnpm db:setup`, which migrates and seeds the database, then `next build`. Every push to `main` redeploys.
+5. Check `/api/health`. It reports the active database driver, whether migrations and the seed have run, and whether `SESSION_SECRET` is set. It never exposes secrets, and returns 200 when everything is healthy.
+
+> Preview deployments run the same build step, so give them their own database (for example a separate Neon branch) rather than the production one.
 
 ## Project structure
 
@@ -95,6 +98,7 @@ src/
       documents/[id]/shares/  # GET, POST grant/change; [userId] DELETE revoke
       documents/import/       # POST multipart upload -> new document
       users/                  # directory for the share dialog
+      health/                 # deployment check: driver, migration, seed, secret present
     login/  docs/[id]/  page.tsx (dashboard)
   components/editor/          # DocumentEditor, Toolbar, ShareDialog, useAutosave
   db/                         # Drizzle schema, Neon/PGlite driver switch, seed
