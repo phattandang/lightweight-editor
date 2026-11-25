@@ -4,7 +4,7 @@
 
 | What                     | Where                                                   |
 |--------------------------|---------------------------------------------------------|
-| Live product             | __LIVE_URL__                                            |
+| Live product             | https://lightweight-editor.vercel.app                                            |
 | Source repository        | https://github.com/phattandang/lightweight-editor       |
 | Walkthrough video        | See `WALKTHROUGH_VIDEO.txt`                             |
 
@@ -44,7 +44,7 @@ All the Markdown files are also at the root of the source code and the repositor
 | Persistence (documents, formatting, shares) | ✅ | Neon Postgres; reload any document                        |
 | Validation and error handling            | ✅ | zod and schema validation on the API, inline UI errors, 409 conflict banner |
 | Automated tests                          | ✅ | `pnpm test`: 17 tests, including integration tests on real Postgres (PGlite) |
-| Live deployment                          | ✅ | __LIVE_URL__                                                  |
+| Live deployment                          | ✅ | https://lightweight-editor.vercel.app                                                  |
 | Architecture note and AI workflow note   | ✅ | `ARCHITECTURE.md`, `AI_WORKFLOW.md`                           |
 
 Beyond the brief: optimistic concurrency (409 instead of silent overwrites), owner, editor and viewer roles with read-only mode, schema-validated content (scripts in imported files are removed), and a local setup with no database to install.

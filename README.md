@@ -2,7 +2,7 @@
 
 A small collaborative document editor inspired by Google Docs. You can create, format, rename, import, and share documents, with owner, editor and viewer permissions, autosave, and conflict detection.
 
-**Live demo:** __LIVE_URL__
+**Live demo:** https://lightweight-editor.vercel.app
 
 ## Demo accounts
 
