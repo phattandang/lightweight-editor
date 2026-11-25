@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AppHeader, Avatar } from "@/components/AppHeader";
 import { DeleteDocumentButton, NewDocumentActions } from "@/components/DashboardActions";
+import { RefreshOnRestore } from "@/components/RefreshOnRestore";
 import { RoleBadge } from "@/components/RoleBadge";
 import { TimeAgo } from "@/components/TimeAgo";
 import { getDb } from "@/db";
@@ -14,6 +15,7 @@ export default async function Dashboard() {
 
   return (
     <>
+      <RefreshOnRestore renderId={crypto.randomUUID()} />
       <AppHeader user={user} />
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
         <section aria-labelledby="new-heading" className="rounded-xl border border-border bg-page p-5">

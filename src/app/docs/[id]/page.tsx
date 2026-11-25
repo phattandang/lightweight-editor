@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { JSONContent } from "@tiptap/core";
 import { AppHeader } from "@/components/AppHeader";
 import { DocumentEditor } from "@/components/editor/DocumentEditor";
+import { RefreshOnRestore } from "@/components/RefreshOnRestore";
 import { getDb } from "@/db";
 import { getDocument } from "@/lib/documents";
 import { AppError } from "@/lib/errors";
@@ -39,8 +40,11 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
 
   const { doc, role, owner } = result;
   return (
+    <>
+    <RefreshOnRestore renderId={crypto.randomUUID()} />
     <DocumentEditor
-      key={doc.id}
+      // Remount with fresh content if a refresh brings a newer version.
+      key={`${doc.id}:${doc.version}`}
       user={user}
       role={role}
       owner={owner}
@@ -52,5 +56,6 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
         updatedAt: doc.updatedAt.toISOString(),
       }}
     />
+    </>
   );
 }
