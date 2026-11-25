@@ -24,6 +24,7 @@ type Props = {
 export function DocumentEditor({ doc, role, owner, user }: Props) {
   const canEdit = role !== "viewer";
   const latest = useRef<JSONContent | null>(null);
+  const [title, setTitle] = useState(doc.title);
 
   const autosave = useAutosave({
     docId: doc.id,
@@ -67,7 +68,7 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
             </svg>
           </Link>
           <div className="min-w-0 flex-1">
-            <TitleField docId={doc.id} initial={doc.title} canRename={canEdit} />
+            <TitleField docId={doc.id} initial={doc.title} canRename={canEdit} onSaved={setTitle} />
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 px-1 pb-1 text-xs text-muted">
               <RoleBadge role={role} />
               {role !== "owner" && <span>Owned by {owner.name}</span>}
@@ -76,7 +77,7 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
             </div>
           </div>
           {role === "owner" ? (
-            <ShareDialog docId={doc.id} docTitle={doc.title} owner={owner} />
+            <ShareDialog docId={doc.id} docTitle={title} owner={owner} />
           ) : null}
           <span title={`${user.name} (${user.email})`}>
             <Avatar name={user.name} />
@@ -134,7 +135,17 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
   );
 }
 
-function TitleField({ docId, initial, canRename }: { docId: string; initial: string; canRename: boolean }) {
+function TitleField({
+  docId,
+  initial,
+  canRename,
+  onSaved,
+}: {
+  docId: string;
+  initial: string;
+  canRename: boolean;
+  onSaved: (title: string) => void;
+}) {
   const [title, setTitle] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const saved = useRef(initial);
@@ -158,6 +169,7 @@ function TitleField({ docId, initial, canRename }: { docId: string; initial: str
       const res = await api<{ title: string }>(`/api/documents/${docId}`, { method: "PATCH", json: { title: next } });
       saved.current = res.title;
       setTitle(res.title);
+      onSaved(res.title);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not rename.");
       setTitle(saved.current);

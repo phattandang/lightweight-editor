@@ -118,7 +118,7 @@ export function useAutosave(opts: {
       e.preventDefault();
     };
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "s") {
         e.preventDefault();
         void ctl.flush();
       }
