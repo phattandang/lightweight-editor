@@ -33,11 +33,12 @@ I ran it as a **human-in-the-loop agent loop**, not as autocomplete:
 
 - The agent's first smoke test of the dev server failed: PGlite doesn't create its parent data folder. It read the server log, found the cause, fixed it, and re-ran the test.
 - The Next.js 16 scaffold enables `cacheComponents` by default. The agent read the docs bundled with the installed Next.js version, rather than relying on memory, and turned the flag off to keep rendering behaviour simple and predictable.
+- A Markdown round-trip test (export, then re-import) caught a bug in the original import: code blocks gained a blank last line. It was fixed with the export feature.
 - Small regressions were found by review rather than by tests: the share dialog kept showing the old title after a rename, and Ctrl+S (save) overlapped Ctrl+Shift+S (strikethrough). Both were fixed.
 
 ## How I verified the AI's work
 
-- **17 automated tests**, including integration tests against a real Postgres engine (PGlite) and a real `.docx` conversion.
+- **31 automated tests** across 5 files: API-level tests through the real route handlers, integration tests against a real Postgres engine (PGlite), a real `.docx` conversion, and an export round trip. GitHub Actions runs them, together with the type check, lint and a build, on every push.
 - `tsc --noEmit` and ESLint on every phase.
 - curl scripts against the running server covering sign-in, creating, saving, renaming, sharing, importing, and the error paths (401, 403, 415, invalid JSON, wrong password). The 409 conflict path is covered by the integration tests.
 - A scripted smoke test against the production deployment: sign-in, saving and the 409 path, rename, sharing as viewer and as editor, blocked writes and re-shares (403), and import. The test documents were deleted afterwards.

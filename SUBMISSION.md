@@ -12,9 +12,8 @@ I verified correctness by testing every flow manually, including two users with 
 |--------------------------|---------------------------------------------------------|
 | Live product             | https://lightweight-editor.vercel.app                                            |
 | Source repository        | https://github.com/phattandang/lightweight-editor       |
-| Submitted snapshot       | Git tag `submission-v1`. The zip in this folder is built from it. |
-| Latest code              | `main` branch: the snapshot plus optional stretch features (see below) |
-| Walkthrough video        | https://www.loom.com/share/2f697751f27a4dde91a3e2c87fedadf4 (also in `WALKTHROUGH_VIDEO.txt`) |
+| Submitted version        | Git tag `submission-v2` (the `main` branch at submission). The zip in this folder is built from it. |
+| Walkthrough video        | https://www.loom.com/share/6e7f20e878744e9b94ec191ad60b0066 (also in `WALKTHROUGH_VIDEO.txt`) |
 
 ## Test accounts (seeded)
 
@@ -51,17 +50,19 @@ All the Markdown files are also at the root of the source code and the repositor
 | Sharing: owner, grant access, owned vs shared | ✅ | **Share** button (owner); dashboard **Owned by me** / **Shared with me** |
 | Persistence (documents, formatting, shares) | ✅ | Neon Postgres; reload any document                        |
 | Validation and error handling            | ✅ | zod and schema validation on the API, inline UI errors, 409 conflict banner |
-| Automated tests                          | ✅ | `pnpm test`: 17 tests in the snapshot, including integration tests on real Postgres (PGlite). More are added on `main` with each stretch feature |
+| Automated tests                          | ✅ | `pnpm test`: 31 tests across 5 files: API-level tests through the real route handlers, integration tests on real Postgres (PGlite), and import and export tests. They run in GitHub Actions on every push |
 | Clear setup and run instructions         | ✅ | `README.md`: `pnpm install && pnpm dev`, with no database or environment variables needed. Verified from a clean extraction of the zip |
 | Live deployment                          | ✅ | https://lightweight-editor.vercel.app                                                  |
 | Architecture note and AI workflow note   | ✅ | `ARCHITECTURE.md`, `AI_WORKFLOW.md`                           |
 
 Beyond the brief: optimistic concurrency (409 instead of silent overwrites), owner, editor and viewer roles with read-only mode, schema-validated content (scripts in imported files are removed), and a local setup with no database to install.
 
-## Optional stretch features
+## Added after the core build
 
-Added after the snapshot, one at a time. Each one is tested locally and then on production before the next one starts. They're live on the site and on the `main` branch, but not in the zip.
+Added one at a time after the core build. Each was tested locally and then on production before the next one started. All of them are in this version and in the zip.
 
-| Feature                    | Where to see it                                                                 |
-|----------------------------|---------------------------------------------------------------------------------|
-| Export to PDF and Markdown | Editor → **Download** → PDF document or Markdown (available to every role)      |
+| Addition                            | Where to see it                                                                 |
+|-------------------------------------|---------------------------------------------------------------------------------|
+| Stretch: export to PDF and Markdown | Editor → **Download** → PDF document or Markdown (available to every role)      |
+| Modern UI redesign                  | Split-panel sign-in, dashboard card grid with large action tiles, glass headers, floating editor toolbar |
+| API-level tests and CI              | `tests/api.test.ts`; `.github/workflows/ci.yml` (type check, lint, tests, build) |

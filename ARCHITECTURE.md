@@ -74,7 +74,12 @@ Ownership is a column, not a share row, so a document always has exactly one own
 
 ## Testing strategy
 
-The highest-risk logic (permissions, concurrency and import conversion) sits in plain service functions that take the database as a parameter. The integration tests run those functions against an **in-memory PGlite**: real Postgres SQL and the real migrations, with no Docker and no network. They run in about 5 seconds on any machine. Pure policy tests cover the permission rules. Import tests feed real Markdown, text and `.docx` files through the same pipeline production uses.
+The highest-risk logic (permissions, concurrency and import conversion) sits in plain service functions that take the database as a parameter. The integration tests run those functions against an **in-memory PGlite**: real Postgres SQL and the real migrations, with no Docker and no network. They run in about 5 seconds on any machine. Pure policy tests cover the permission rules. Import tests feed real Markdown, text and `.docx` files through the same pipeline production uses. API-level tests call the real route handlers with a real session cookie to check the error contract: 400, 401, 403, 404, 409 and 415 responses with consistent JSON, and no internal details in 500s. GitHub Actions runs the type check, lint, tests and a production build on every push.
+
+## Added after the core build
+
+- **Export to PDF and Markdown** (a stretch item from the brief). This runs in the browser on the editor's JSON, so it includes unsaved edits and needs no server endpoint. Markdown uses ProseMirror's own serializer, mapped to TipTap's node names, with underline written as `<u>`. PDF uses pdfmake and produces real, selectable text. The PDF library and its fonts are lazy-loaded, so they don't slow down opening a document. A round-trip test (export, then re-import) checks the two pipelines agree.
+- **UI redesign.** A small visual system of colour tokens, gradient, glass and card styles, applied to the sign-in page, the dashboard (now a card grid) and the editor (a floating toolbar). It changes only presentation, with no behaviour or API changes.
 
 ## What I would do next
 
