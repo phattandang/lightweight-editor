@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api, ApiError } from "@/lib/api-client";
+import { Avatar } from "./AppHeader";
 
 type DemoUser = { email: string; name: string };
 
@@ -41,10 +42,14 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
               type="button"
               disabled={busy}
               onClick={() => signIn(u.email, demoPassword)}
-              className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-left text-sm hover:border-accent hover:bg-accent-soft disabled:opacity-60"
+              className="card card-hover flex items-center gap-3 px-3.5 py-3 text-left text-sm disabled:opacity-60"
             >
-              <span className="font-medium">Continue as {u.name.split(" ")[0]}</span>
-              <span className="text-muted">{u.email}</span>
+              <Avatar name={u.name} size={34} />
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block font-medium">Continue as {u.name.split(" ")[0]}</span>
+                <span className="block truncate text-xs text-muted">{u.email}</span>
+              </span>
+              <span aria-hidden="true" className="text-muted">→</span>
             </button>
           ))}
         </div>
@@ -75,7 +80,7 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
             required
             value={email}
             onChange={(ev) => setEmail(ev.target.value)}
-            className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+            className="mt-1 w-full rounded-xl border border-border bg-white/80 px-3.5 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/15"
           />
         </label>
         <label className="block">
@@ -86,7 +91,7 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
             required
             value={password}
             onChange={(ev) => setPassword(ev.target.value)}
-            className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+            className="mt-1 w-full rounded-xl border border-border bg-white/80 px-3.5 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/15"
           />
         </label>
         {error && (
@@ -97,7 +102,7 @@ export function LoginForm({ demoUsers, demoPassword }: { demoUsers: DemoUser[]; 
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded-md bg-accent px-3 py-2 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
+          className="btn-gradient w-full rounded-xl px-3 py-2.5 text-sm font-medium disabled:opacity-60"
         >
           {busy ? "Signing in…" : "Sign in"}
         </button>

@@ -8,8 +8,8 @@ import { Logo } from "./Logo";
 export function AppHeader({ user }: { user: { name: string; email: string } }) {
   const router = useRouter();
   return (
-    <header className="sticky top-0 z-20 border-b border-border bg-page">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+    <header className="glass sticky top-0 z-20 border-b border-white/60">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" aria-label="Home">
           <Logo />
         </Link>

@@ -6,6 +6,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Placeholder } from "@tiptap/extensions";
 import type { JSONContent } from "@tiptap/core";
 import { Avatar } from "@/components/AppHeader";
+import { LogoMark } from "@/components/Logo";
 import { RoleBadge } from "@/components/RoleBadge";
 import { formatRelative } from "@/components/TimeAgo";
 import { api, ApiError } from "@/lib/api-client";
@@ -58,15 +59,11 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
   });
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f0f2f5]">
-      <header className="sticky top-0 z-20 border-b border-border bg-page">
+    <div className="flex min-h-screen flex-col">
+      <header className="glass sticky top-0 z-20 border-b border-white/60">
         <div className="flex items-center gap-3 px-3 pt-2 sm:px-4">
           <Link href="/" title="Back to documents" aria-label="Back to documents" className="shrink-0 rounded-md p-1 hover:bg-background">
-            <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#1a73e8" />
-              <path d="M14 2v6h6" fill="#8ab4f8" />
-              <path d="M8 13h8M8 16.5h8M8 9.5h3" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
+            <LogoMark size={32} />
           </Link>
           <div className="min-w-0 flex-1">
             <TitleField docId={doc.id} initial={doc.title} canRename={canEdit} onSaved={setTitle} />
@@ -86,7 +83,7 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
           </span>
         </div>
         {canEdit && editor ? (
-          <div className="overflow-x-auto px-3 pb-2 pt-1 sm:px-4">
+          <div className="flex justify-center overflow-x-auto px-3 pb-3 pt-1 sm:px-4">
             <Toolbar editor={editor} />
           </div>
         ) : (
@@ -123,9 +120,9 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
         </div>
       )}
 
-      <main className="flex-1 px-0 py-0 sm:px-4 sm:py-6">
+      <main className="flex-1 px-0 py-0 sm:px-6 sm:py-8">
         <div
-          className="mx-auto min-h-[80vh] max-w-[816px] cursor-text border-border bg-page px-5 py-8 shadow-sm sm:border sm:px-16 sm:py-14"
+          className="mx-auto min-h-[80vh] max-w-[816px] cursor-text bg-page px-5 py-8 sm:rounded-3xl sm:border sm:border-border sm:px-16 sm:py-14 sm:shadow-[0_1px_2px_rgb(15_23_42/0.04),0_24px_48px_-24px_rgb(79_70_229/0.25)]"
           onClick={(e) => {
             if (e.target === e.currentTarget && canEdit) editor?.commands.focus("end");
           }}
@@ -179,7 +176,7 @@ function TitleField({
   }
 
   if (!canRename) {
-    return <h1 className="truncate px-1 py-0.5 text-lg">{title}</h1>;
+    return <h1 className="truncate px-1.5 py-0.5 text-xl font-semibold tracking-tight">{title}</h1>;
   }
   return (
     <div className="flex items-center gap-2">
@@ -196,7 +193,7 @@ function TitleField({
             requestAnimationFrame(() => (e.target as HTMLInputElement).blur());
           }
         }}
-        className="w-full min-w-0 max-w-xl rounded-md border border-transparent px-1 py-0.5 text-lg outline-none hover:border-border focus:border-accent"
+        className="w-full min-w-0 max-w-xl rounded-lg border border-transparent bg-transparent px-1.5 py-0.5 text-xl font-semibold tracking-tight outline-none hover:border-border focus:border-accent focus:bg-white"
       />
       {error && (
         <span role="alert" className="shrink-0 text-xs text-danger">

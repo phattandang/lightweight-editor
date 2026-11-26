@@ -84,7 +84,7 @@ export function ShareDialog({ docId, docTitle, owner }: { docId: string; docTitl
     <>
       <button
         onClick={open}
-        className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
+        className="btn-gradient inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 11V7a4 4 0 1 1 8 0M5 11h14v10H5z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
@@ -94,7 +94,7 @@ export function ShareDialog({ docId, docTitle, owner }: { docId: string; docTitl
       <dialog
         ref={ref}
         aria-labelledby="share-title"
-        className="m-auto w-[min(540px,calc(100vw-32px))] rounded-xl bg-page p-0 text-foreground shadow-2xl"
+        className="m-auto w-[min(540px,calc(100vw-32px))] rounded-2xl bg-page p-0 text-foreground shadow-2xl"
       >
         <div className="p-6">
           <h2 id="share-title" className="truncate text-lg font-semibold">

@@ -52,25 +52,35 @@ export function NewDocumentActions({ supportedLabel }: { supportedLabel: string 
   }
 
   return (
-    <div className="mt-3">
-      <div className="flex flex-wrap gap-3">
+    <div className="mt-6">
+      <div className="grid gap-4 sm:grid-cols-2">
         <button
           onClick={createBlank}
           disabled={busy !== null}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
+          className="btn-gradient group flex items-center gap-4 rounded-2xl p-5 text-left disabled:opacity-60"
         >
-          <span aria-hidden="true" className="text-lg leading-none">+</span>
-          {busy === "create" ? "Creating…" : "Blank document"}
+          <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/20 text-2xl ring-1 ring-white/30 transition group-hover:scale-105">
+            +
+          </span>
+          <span>
+            <span className="block text-base font-semibold">{busy === "create" ? "Creating…" : "Blank document"}</span>
+            <span className="block text-sm text-white/80">Start from an empty page</span>
+          </span>
         </button>
         <button
           onClick={() => fileRef.current?.click()}
           disabled={busy !== null}
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-page px-4 py-2.5 text-sm font-medium hover:bg-background disabled:opacity-60"
+          className="card card-hover group flex items-center gap-4 p-5 text-left disabled:opacity-60"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 16V4m0 0-4 4m4-4 4 4M5 20h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {busy === "import" ? "Importing…" : "Import file"}
+          <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition group-hover:scale-105">
+            <svg width="22" height="22" viewBox="0 0 24 24">
+              <path d="M12 16V4m0 0-4 4m4-4 4 4M5 20h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span>
+            <span className="block text-base font-semibold">{busy === "import" ? "Importing…" : "Import a file"}</span>
+            <span className="block text-sm text-muted">{supportedLabel}</span>
+          </span>
         </button>
         <input
           ref={fileRef}

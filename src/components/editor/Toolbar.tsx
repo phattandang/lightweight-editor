@@ -32,7 +32,7 @@ export function Toolbar({ editor }: { editor: Editor }) {
     <div
       role="toolbar"
       aria-label="Formatting"
-      className="flex flex-wrap items-center gap-0.5 rounded-full bg-[#edf2fa] px-2 py-1"
+      className="flex flex-wrap items-center gap-0.5 rounded-2xl border border-border bg-white/90 px-2 py-1.5 shadow-[0_8px_24px_-14px_rgb(79_70_229/0.35)]"
     >
       <Btn label="Undo (Ctrl+Z)" disabled={!s.canUndo} onClick={() => chain().undo().run()}>
         <Icon d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11" />
@@ -103,7 +103,7 @@ function Btn(props: {
       onMouseDown={(e) => e.preventDefault()}
       onClick={props.onClick}
       className={`inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-[15px] disabled:opacity-35 ${
-        props.active ? "bg-[#d3e3fd] text-[#0b57d0]" : "hover:bg-black/5"
+        props.active ? "bg-accent-soft text-accent" : "hover:bg-black/5"
       }`}
     >
       {props.children}

@@ -77,7 +77,7 @@ export function ExportMenu({ getDoc, title }: { getDoc: () => JSONContent | null
         disabled={busy}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-sm font-medium hover:bg-background disabled:opacity-60"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white/80 px-3 py-2 text-sm font-medium hover:bg-white disabled:opacity-60"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
@@ -85,7 +85,7 @@ export function ExportMenu({ getDoc, title }: { getDoc: () => JSONContent | null
         <span className="hidden sm:inline">{busy ? "Preparing…" : "Download"}</span>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 z-30 mt-1 w-52 overflow-hidden rounded-lg border border-border bg-page py-1 shadow-lg">
+        <div role="menu" className="absolute right-0 z-30 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-page py-1 shadow-xl">
           <button role="menuitem" onClick={() => run("pdf")} className="block w-full px-3 py-2 text-left text-sm hover:bg-background">
             PDF document <span className="text-muted">(.pdf)</span>
           </button>

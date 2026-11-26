@@ -1,11 +1,23 @@
+export function LogoMark({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+      <defs>
+        <linearGradient id="le-logo" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#6366f1" />
+          <stop offset="0.6" stopColor="#8b5cf6" />
+          <stop offset="1" stopColor="#ec4899" />
+        </linearGradient>
+      </defs>
+      <rect width="32" height="32" rx="9" fill="url(#le-logo)" />
+      <path d="M10 11h12M10 16h12M10 21h7" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 font-semibold text-foreground ${className}`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#1a73e8" />
-        <path d="M14 2v6h6" fill="#8ab4f8" />
-        <path d="M8 13h8M8 16.5h8M8 9.5h3" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
+    <span className={`inline-flex items-center gap-2.5 font-semibold tracking-tight text-foreground ${className}`}>
+      <LogoMark />
       Lightweight Editor
     </span>
   );
