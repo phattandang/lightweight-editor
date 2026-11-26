@@ -3,13 +3,14 @@
 ## Tools
 
 - **Claude Code** (Claude Opus 5.5) as a coding agent in VS Code. It had terminal access to scaffold, install, run tests and the dev server, smoke-test the API with curl, and commit and push to GitHub. It also had web search to check library and platform facts.
+- **ChatGPT**, to help me draft the initial high-level system design, which I then brought to Claude Code to critique.
 - **Vercel and Neon dashboards**, operated by me: accounts, environment variables, deployment settings.
 
 ## How I worked with it
 
 I ran it as a **human-in-the-loop agent loop**, not as autocomplete:
 
-1. **I designed first.** I drew the system design (API gateway, edit and upload services, Postgres with JSON content, share roles) and wrote down the save behaviour I wanted: debounced autosave, a save-status indicator, `PUT` with role checks, last-write-wins with an optional 409 safeguard, and rename touching only the title.
+1. **I designed first.** With help from ChatGPT on the draft, I drew the system design (API gateway, edit and upload services, Postgres with JSON content, share roles) and wrote down the save behaviour I wanted: debounced autosave, a save-status indicator, `PUT` with role checks, last-write-wins with an optional 409 safeguard, and rename touching only the title.
 2. **The AI critiqued the design and proposed a scoped plan.** It checked key assumptions with web searches before committing to them: TipTap v3's StarterKit includes Underline, `@tiptap/html` can convert HTML to JSON on the server, Vercel caps request bodies at 4.5 MB, and Neon has a free tier. It then proposed changes, which I approved:
    - Collapse the gateway and services into **one Next.js app**, with the same boundaries as code modules.
    - Use an **integer version** for conflicts instead of comparing `updated_at`, because Postgres timestamps (microseconds) and JavaScript dates (milliseconds) don't compare cleanly.

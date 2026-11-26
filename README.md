@@ -80,7 +80,9 @@ pnpm build && pnpm start
 pnpm test
 ```
 
-22 tests across 4 files:
+31 tests across 5 files. They also run in **GitHub Actions** on every push to `main` and on pull requests, together with the type check, lint and a production build (`.github/workflows/ci.yml`).
+
+- **`tests/api.test.ts`**: calls the real route handlers with a real session cookie and checks the API error contract. Each bad request gets the right status (400, 401, 403, 404, 409 or 415) with a consistent JSON error, and a 500 never leaks internal details.
 
 - **`tests/documents.test.ts`**: integration tests that run the real services, SQL and migrations on an in-memory PGlite Postgres. They cover the full sharing lifecycle (private, then viewer, then editor, then revoked), editors being unable to re-share, stale-version writes returning **409** and an explicit overwrite succeeding, rename not touching content, schema validation rejecting unknown nodes, owned and shared lists, and bad share targets.
 - **`tests/import.test.ts`**: Markdown, plain text and a **real .docx** generated in the test are converted to editor JSON with structure and formatting kept. A `<script>` tag is checked to be removed. Unsupported, empty, binary and fake `.docx` files are rejected with clear errors.
