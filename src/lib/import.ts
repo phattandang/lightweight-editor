@@ -34,7 +34,9 @@ export function textToHtml(text: string): string {
 }
 
 export function markdownToHtml(md: string): string {
-  return marked.parse(md, { async: false, gfm: true }) as string;
+  const html = marked.parse(md, { async: false, gfm: true }) as string;
+  // marked ends code blocks with "\n</code></pre>"; the editor would keep that as a blank last line.
+  return html.replace(/\n<\/code><\/pre>/g, "</code></pre>");
 }
 
 export async function docxToHtml(buffer: Buffer): Promise<string> {

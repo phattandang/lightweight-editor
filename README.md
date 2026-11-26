@@ -23,6 +23,7 @@ All accounts use the password **`demo1234`**. The sign-in page also has one-clic
 - **Autosave:** about 1.5 s after you stop typing, plus when the editor loses focus, when the tab is hidden or closed, and on Ctrl+S. A status line shows *Unsaved changes*, *Saving…*, *Saved*, or an error with **Retry**.
 - **Conflict detection:** if another tab or user saved first, your save is rejected with a 409 instead of silently overwriting theirs. A banner lets you **Load latest** or **Keep mine**.
 - **File import:** upload **.txt, .md or .docx (max 4 MB)** to create a new editable document. Headings, lists, bold, italic and underline are kept. Images, tables, fonts and colours are dropped.
+- **Export:** download any document as **PDF** (real text, not an image) or **Markdown** from the **Download** menu. Every role can use it, including viewers, and it includes edits that haven't autosaved yet.
 - **Sharing:** the owner grants **Viewer** or **Editor** access by email, can change it, or can revoke it. The dashboard separates **Owned by me** from **Shared with me**. Links are *restricted*: only people with access can open them.
 
 ## Run locally
@@ -79,11 +80,12 @@ pnpm build && pnpm start
 pnpm test
 ```
 
-17 tests across 3 files:
+22 tests across 4 files:
 
 - **`tests/documents.test.ts`**: integration tests that run the real services, SQL and migrations on an in-memory PGlite Postgres. They cover the full sharing lifecycle (private, then viewer, then editor, then revoked), editors being unable to re-share, stale-version writes returning **409** and an explicit overwrite succeeding, rename not touching content, schema validation rejecting unknown nodes, owned and shared lists, and bad share targets.
 - **`tests/import.test.ts`**: Markdown, plain text and a **real .docx** generated in the test are converted to editor JSON with structure and formatting kept. A `<script>` tag is checked to be removed. Unsupported, empty, binary and fake `.docx` files are rejected with clear errors.
 - **`tests/access.test.ts`**: the owner, editor and viewer permission rules.
+- **`tests/export.test.ts`**: Markdown export for every block and mark, plus a **round trip** (export, re-import, same structure), the PDF definition, and rendering an actual PDF file.
 
 ## Deployment (Vercel + Neon, both free tiers)
 

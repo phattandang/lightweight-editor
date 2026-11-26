@@ -8,7 +8,7 @@ export const MAX_CONTENT_BYTES = 1_000_000; // ~1 MB of JSON per document
 export const EMPTY_DOC: JSONContent = { type: "doc", content: [{ type: "paragraph" }] };
 
 let schema: ReturnType<typeof getSchema> | null = null;
-function docSchema() {
+export function docSchema() {
   schema ??= getSchema(baseExtensions);
   return schema;
 }

@@ -10,6 +10,7 @@ import { RoleBadge } from "@/components/RoleBadge";
 import { formatRelative } from "@/components/TimeAgo";
 import { api, ApiError } from "@/lib/api-client";
 import { baseExtensions } from "@/lib/editor/extensions";
+import { ExportMenu } from "./ExportMenu";
 import { ShareDialog } from "./ShareDialog";
 import { Toolbar } from "./Toolbar";
 import { useAutosave, type SaveState } from "./useAutosave";
@@ -76,6 +77,7 @@ export function DocumentEditor({ doc, role, owner, user }: Props) {
               <SaveIndicator status={autosave.status} canEdit={canEdit} onRetry={autosave.retry} />
             </div>
           </div>
+          <ExportMenu getDoc={() => editor?.getJSON() ?? null} title={title} />
           {role === "owner" ? (
             <ShareDialog docId={doc.id} docTitle={title} owner={owner} />
           ) : null}
